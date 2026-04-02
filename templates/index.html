@@ -54,6 +54,17 @@
           </div>
 
           <div class="col-md-3">
+            <label class="form-label fw-semibold">Marca</label> 
+            <input 
+              type="text" 
+              name="marca" 
+              class="form-control" 
+              placeholder="Ej: Norma" 
+              required
+              > 
+          </div> 
+
+          <div class="col-md-3">
             <label class="form-label fw-semibold">Cantidad</label>
             <input
               type="number"
@@ -105,6 +116,7 @@
             <tr>
               <th>#</th>
               <th>Nombre</th>
+              <th>Marca</th>
               <th>Cantidad</th>
               <th>Precio</th>
               <th>Acciones</th>
@@ -119,6 +131,7 @@
               <tr id="fila-{{ p.id }}">
                 <td class="text-muted small">{{ p.id }}</td>
                 <td class="fw-semibold">{{ p.nombre }}</td>
+                <td class="fw-semibold">{{ p.marca }}</td>
                 <td>{{ p.cantidad }}</td>
                 <td>${{ "%.2f" | format(p.precio) }}</td>
                 <td>
@@ -126,7 +139,7 @@
                   <!-- ── U — Botón Editar (abre fila de edición) ── -->
                   <button
                     class="btn btn-warning btn-sm me-1"
-                    onclick="mostrarEdicion({{ p.id }}, '{{ p.nombre }}', {{ p.cantidad }}, {{ p.precio }})">
+                    onclick="mostrarEdicion({{ p.id }}, '{{ p.nombre }}', '{{ p.marca }}', {{ p.cantidad }}, {{ p.precio }})">
                     <i class="bi bi-pencil"></i> Editar
                   </button>
 
@@ -149,6 +162,10 @@
                     <div class="col-md-4">
                       <label class="form-label small fw-semibold mb-1">Nombre</label>
                       <input type="text"   name="nombre"   id="e-nombre-{{ p.id }}"   class="form-control form-control-sm" required>
+                    </div>
+                    <div class="col-md-3">
+                      <label class="form-label small fw-semibold mb-1">Marca</label>
+                      <input type="text"   name="marca"   id="e-marca-{{ p.id }}"   class="form-control form-control-sm" required>
                     </div>
                     <div class="col-md-3">
                       <label class="form-label small fw-semibold mb-1">Cantidad</label>
@@ -182,6 +199,17 @@
               </tr>
             {% endif %}
 
+            {% set total = namespace(valor=0) %} 
+            {% for p in productos %} 
+                {% set total.valor = total.valor + (p.precio * p.cantidad) %} 
+            {% endfor %} 
+            
+            <tr class="table-primary fw-bold"> 
+                <td colspan="3">VALOR TOTAL DEL INVENTARIO</td> 
+                <td>${{ "%.2f" | format(total.valor) }}</td> 
+                <td></td> 
+            </tr> 
+
           </tbody>
         </table>
       </div>
@@ -205,6 +233,7 @@
     function mostrarEdicion(id, nombre, cantidad, precio) {
       document.getElementById('edicion-'    + id).style.display = 'table-row';
       document.getElementById('e-nombre-'   + id).value = nombre;
+      document.getElementById('e-marca-'   + id).value = marca;
       document.getElementById('e-cantidad-' + id).value = cantidad;
       document.getElementById('e-precio-'   + id).value = precio;
     }

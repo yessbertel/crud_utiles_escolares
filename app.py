@@ -7,11 +7,16 @@ app = Flask(__name__)
 #  Se reinicia cada vez que reinicias Flask
 # ──────────────────────────────────────────
 productos = [
-    {"id": 1, "nombre": "Leche",   "cantidad": 50, "precio": 1.20},
-    {"id": 2, "nombre": "Pan",     "cantidad": 30, "precio": 0.80},
-    {"id": 3, "nombre": "Arroz",   "cantidad": 20, "precio": 0.90},
+    {"id": 1, "nombre": "Cuaderno",    "marca": "Norma",     "cantidad": 50,  "precio": 2.50},
+    {"id": 2, "nombre": "Lapiz HB",    "marca": "Faber-Castell", "cantidad": 100, "precio": 0.30},
+    {"id": 3, "nombre": "Borrador",    "marca": "Pelikan",   "cantidad": 80,  "precio": 0.50},
+    {"id": 4, "nombre": "Boligrafo",   "marca": "Bic",       "cantidad": 90,  "precio": 0.60},
+    {"id": 5, "nombre": "Colores",     "marca": "Crayola",   "cantidad": 120, "precio": 4.00},
+    {"id": 6, "nombre": "Cartuchera",  "marca": "Totto",     "cantidad": 70,  "precio": 6.00},
+    {"id": 7, "nombre": "Pegante",     "marca": "Colbon",    "cantidad": 50,  "precio": 2.00},
+    {"id": 8, "nombre": "Marcadores",  "marca": "Sharpie",   "cantidad": 30,  "precio": 3.00},
 ]
-siguiente_id = 4
+siguiente_id = 9
 
 
 # ── READ ──────────────────────────────────
@@ -27,6 +32,7 @@ def agregar():
     productos.append({
         "id":       siguiente_id,
         "nombre":   request.form["nombre"],
+        "marca": request.form["marca"],
         "cantidad": int(request.form["cantidad"]),
         "precio":   float(request.form["precio"]),
     })
@@ -40,6 +46,7 @@ def editar(id):
     for p in productos:
         if p["id"] == id:
             p["nombre"]   = request.form["nombre"]
+            p["marca"] = request.form["marca"]
             p["cantidad"] = int(request.form["cantidad"])
             p["precio"]   = float(request.form["precio"])
     return redirect(url_for("index"))
